@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Авторизация — Emerald Dark Theme</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Serif:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Serif:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Inter&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-900 dark:bg-gray-900 flex items-center justify-center min-h-screen relative">
+
+  <!-- Decorative emerald background circles -->
+  <div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-emerald-500 opacity-10 rounded-full dark:opacity-20"></div>
+    <div class="absolute top-1/2 left-3/4 w-80 h-80 bg-emerald-700 opacity-10 rounded-full dark:opacity-20"></div>
+    <div class="absolute bottom-0 right-0 w-72 h-72 bg-emerald-400 opacity-10 rounded-full dark:opacity-20"></div>
+  </div>
+
+  <main class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 w-90 max-w-sm flex flex-col items-center text-center">
+
+    <!-- Emerald icon button -->
+    <button aria-label="Login icon" class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-3 mb-4">
+      <!-- Emerald themed SVG icon (user) -->
+      <svg class="w-8 h-8 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="12" cy="9" r="4"/>
+        <path d="M4 20c0-4 4-7 8-7s8 3 8 7"/>
+      </svg>
+    </button>
+
+    <h1 class="text-2xl font-semibold text-emerald-700 dark:text-emerald-400 mb-2">Авторизация</h1>
+    <p class="text-base font-medium text-emerald-600 dark:text-emerald-300 mb-6">Войти с помощью почты</p>
+    
+    <form class="w-full space-y-5" novalidate>
+      <!-- Email input group -->
+      <div>
+        <label class="sr-only" for="email">Email</label>
+        <div class="relative">
+          <span class="absolute left-3 top-3 text-emerald-500 dark:text-emerald-400">
+            <!-- Emerald mail icon -->
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="3" y="7" width="18" height="10" rx="2"/>
+              <path d="M3 7l9 6 9-6"/>
+            </svg>
+          </span>
+          <input 
+            type="email" id="email" name="email" placeholder="Email" required
+            class="pl-10 pr-3 py-3 rounded-md border border-gray-300 dark:border-gray-600 text-emerald-700 dark:text-emerald-200 bg-white dark:bg-gray-900 placeholder-gray-400 dark:placeholder-gray-500 w-full focus:outline-none focus:ring-2 focus:ring-emerald-400 dark:focus:ring-emerald-500 transition"
+            autocomplete="username" />
+        </div>
+        <p class="text-xs text-red-500 mt-1 hidden" id="emailError">Введите email</p>
+      </div>
+
+      <!-- Password input group -->
+      <div>
+        <label class="sr-only" for="password">Пароль</label>
+        <div class="relative">
+          <span class="absolute left-3 top-3 text-emerald-500 dark:text-emerald-400">
+            <!-- Emerald lock icon -->
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="5" y="11" width="14" height="8" rx="2"/>
+              <path d="M8 11V7a4 4 0 118 0v4"/>
+            </svg>
+          </span>
+          <input 
+            type="password" id="password" name="password" placeholder="Пароль" required
+            class="pl-10 pr-10 py-3 rounded-md border border-gray-300 dark:border-gray-600 text-emerald-700 dark:text-emerald-200 bg-white dark:bg-gray-900 placeholder-gray-400 dark:placeholder-gray-500 w-full focus:outline-none focus:ring-2 focus:ring-emerald-400 dark:focus:ring-emerald-500 transition"
+            autocomplete="current-password" />
+          <button type="button" tabindex="0" class="absolute right-3 top-3 text-emerald-500 dark:text-emerald-400 focus:outline-none" aria-label="Показать пароль" onclick="togglePassword()">
+            <!-- Emerald eye icon -->
+            <svg id="eyeOpen" class="w-5 h-5 block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg id="eyeClosed" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M17.94 17.94C16.12 19.21 14.09 20 12 20c-7 0-11-8-11-8a21.44 21.44 0 014.05-5.94"/>
+              <path d="M1 1l22 22"/>
+              <path d="M9.53 9.53a3 3 0 004.24 4.24"/>
+            </svg>
+          </button>
+        </div>
+        <p class="text-xs text-red-500 mt-1 hidden" id="passwordError">Введите пароль</p>
+      </div>
+
+      <button type="submit" 
+        class="w-full py-3 rounded-lg text-white font-medium bg-gradient-to-r from-emerald-500 to-emerald-400 
+               shadow-md hover:from-emerald-600 hover:to-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 
+               transition-transform transform hover:scale-105 active:scale-95">
+        Войти
+      </button>
+    </form>
+
+    <div class="mt-6 text-emerald-600 dark:text-emerald-300 text-sm space-y-2">
+      <p>Забыли пароль? <a href="#" class="underline font-bold hover:text-emerald-400">Сбросить</a></p>
+      <p>Нет аккаунта? <a href="#" class="underline font-bold hover:text-emerald-400">Зарегистрироваться</a></p>
+    </div>
+  </main>
+
+  <script>
+    // Simple password visibility toggle
+    function togglePassword() {
+      const pwdInput = document.getElementById('password');
+      const eyeOpen = document.getElementById('eyeOpen');
+      const eyeClosed = document.getElementById('eyeClosed');
+      if (pwdInput.type === 'password') {
+        pwdInput.type = 'text';
+        eyeOpen.classList.add('hidden');
+        eyeClosed.classList.remove('hidden');
+      } else {
+        pwdInput.type = 'password';
+        eyeOpen.classList.remove('hidden');
+        eyeClosed.classList.add('hidden');
+      }
+    }
+  </script>
+
+</body>
+</html>
