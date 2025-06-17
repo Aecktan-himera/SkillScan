@@ -1,0 +1,12 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "compilerOptions": {
+    "module": "commonjs", // or "ES6"
+    "moduleResolution": "node", // Crucial for finding modules
+    "types": ["node"] // Optional but recommended
+  }
+}
