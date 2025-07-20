@@ -1,0 +1,22 @@
+FROM node:20-alpine
+
+# Создаем пользователя с явным UID для согласованности
+RUN addgroup -S frontend -g 1001 && \
+    adduser -S frontend -G frontend -u 1001
+
+# Создаем рабочую директорию и назначаем права
+RUN mkdir -p /app/node_modules && chown -R frontend:frontend /app
+WORKDIR /app
+
+# Копируем зависимости и устанавливаем от имени root
+COPY --chown=frontend:frontend package*.json ./
+RUN npm install
+
+# Копируем исходный код и меняем владельца
+COPY --chown=frontend:frontend . .
+
+# Переключаемся на непривилегированного пользователя
+USER frontend
+
+EXPOSE 5173
+CMD ["npm", "run", "dev"]

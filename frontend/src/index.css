@@ -1,0 +1,13 @@
+/* Включение nesting */
+/*@lightningcss;
+
+/* Пример вложенных стилей */
+.container {
+  & .item {
+    color: blue;
+    
+    &:hover {
+      color: red;
+    }
+  }
+}
