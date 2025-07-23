@@ -18,15 +18,21 @@ export class TestService {
     const results = answers.map(answer => {
       const question = questions.find(q => q.id === answer.questionId);
 
-     // Приводим ID к строке для гарантии корректного сравнения
-    const isCorrect = question?.options.some(
-      opt => 
-        opt.id.toString() === answer.selectedOptionId.toString() && 
-        opt.isCorrect
-    );
-      if (isCorrect) correctCount++;
-      return { ...answer, isCorrect };
-    });
+// Всегда гарантируем булево значение
+    let isCorrect = false;
+
+    if (question) {
+      const correctOption = question.options.find(opt => opt.isCorrect);
+      
+      // Сравнение с приведением к строке
+      if (correctOption && answer.selectedOptionId) {
+        isCorrect = correctOption.id.toString() === answer.selectedOptionId.toString();
+      }
+    }
+    
+    if (isCorrect) correctCount++;
+    return { ...answer, isCorrect };
+  });
     
     return {
       score: (correctCount / answers.length) * 100,

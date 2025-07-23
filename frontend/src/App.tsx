@@ -27,56 +27,56 @@ function App() {
   const { user } = useAuth();
   // Обертки для стилей
   const HomeWithWrapper = () => (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 dark:bg-gray-800">
       <Breadcrumbs />
       <HomePage />
     </div>
   );
 
   const LoginWithWrapper = () => (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 dark:bg-gray-800">
       <Breadcrumbs />
       <LoginPage />
     </div>
   );
 
   const RegisterWithWrapper = () => (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 dark:bg-gray-800">
       <Breadcrumbs />
       <RegisterPage />
     </div>
   );
 
   const TestWithWrapper = () => (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 dark:bg-gray-800">
       <Breadcrumbs />
       <TestPage />
     </div>
   );
 
   const HistoryWithWrapper = () => (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 dark:bg-gray-800">
       <Breadcrumbs />
       <HistoryPage />
     </div>
   );
 
   const ProfileWithWrapper = () => (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 dark:bg-gray-800">
       <Breadcrumbs />
       <ProfilePage />
     </div>
   );
 
   const TopicsWithWrapper = () => (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 dark:bg-gray-800">
       <Breadcrumbs />
       <TopicsPage />
     </div>
   );
 
   const NotFoundWithWrapper = () => (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 dark:bg-gray-800">
       <Breadcrumbs />
       <NotFoundPage />
     </div>

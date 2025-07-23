@@ -199,15 +199,18 @@ export const getTestById = async (req: Request, res: Response) => {
       if (!question) {
         return {
           ...answer,
+          isCorrect: false,
           questionText: "Вопрос не найден",
           options: []
         };
       }
 
 const correctOption = question.options.find(opt => opt.isCorrect);
-  const isCorrect = correctOption?.id.toString() === answer.selectedOptionId?.toString();
+  const isCorrect = correctOption 
+    ? correctOption.id.toString() === answer.selectedOptionId?.toString()
+    : false;
 
-      return {
+  return {
         ...answer,
         isCorrect,
         questionText: question.text,
