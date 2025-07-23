@@ -204,12 +204,22 @@ export const getTestById = async (req: Request, res: Response) => {
         };
       }
 
+const correctOption = question.options.find(opt => opt.isCorrect);
+  const isCorrect = correctOption?.id.toString() === answer.selectedOptionId?.toString();
+
       return {
         ...answer,
+        isCorrect,
         questionText: question.text,
         explanation: question.explanation,
-        options: question.options,
-        correctOption: question.options.find(opt => opt.isCorrect)
+       options: question.options.map(opt => ({
+      ...opt,
+      id: opt.id.toString() // Гарантируем строковый формат
+    })),
+    correctOption: correctOption ? {
+      ...correctOption,
+      id: correctOption.id.toString()
+    } : undefined
       };
     });
 

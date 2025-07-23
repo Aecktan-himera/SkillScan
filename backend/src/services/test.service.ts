@@ -17,9 +17,13 @@ export class TestService {
     let correctCount = 0;
     const results = answers.map(answer => {
       const question = questions.find(q => q.id === answer.questionId);
-      const isCorrect = question?.options.some(
-        opt => opt.id === answer.selectedOptionId && opt.isCorrect
-      );
+
+     // Приводим ID к строке для гарантии корректного сравнения
+    const isCorrect = question?.options.some(
+      opt => 
+        opt.id.toString() === answer.selectedOptionId.toString() && 
+        opt.isCorrect
+    );
       if (isCorrect) correctCount++;
       return { ...answer, isCorrect };
     });

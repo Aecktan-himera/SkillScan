@@ -92,15 +92,7 @@ const TestPage: React.FC = () => {
       )) {
         return;
       }
-      /*if (unansweredQuestions > 0) {
-        throw new Error("Пожалуйста, ответьте на все вопросы перед завершением теста");
-      }*/
-
-      /*const answers = questions.map((question, index) => ({
-        questionId: question.id,
-        selectedOptionId: userAnswers[index] || ""
-      }));*/
-
+      
       const answers = questions.map((question, index) => ({
         questionId: question.id.toString(), // Добавьте .toString()
         selectedOptionId: (userAnswers[index] || "").toString() // И здесь
