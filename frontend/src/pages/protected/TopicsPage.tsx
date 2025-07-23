@@ -65,11 +65,13 @@ const TopicsPage = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-2xl font-bold mb-6">Выберите тему для тестирования</h1>
+      <h1 className="text-2xl font-bold mb-6 dark:text-white
+    transition-colors duration-200">Выберите тему для тестирования</h1>
 
       {topics.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-500 mb-4">Доступные темы отсутствуют</p>
+          <p className="text-gray-500 mb-4 dark:text-white
+    transition-colors duration-200">Доступные темы отсутствуют</p>
           {user?.role === "admin" && (
             <Button onClick={() => navigate("/admin/topics")}>
               Создать тему

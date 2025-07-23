@@ -27,6 +27,7 @@ const TestPage: React.FC = () => {
   const topic_id = topicIdParam ? parseInt(topicIdParam, 10) : null;
 
   useEffect(() => {
+   const abortController = new AbortController(); 
     const fetchData = async () => {
       try {
         setLoading(true);
@@ -45,8 +46,13 @@ const TestPage: React.FC = () => {
         setTopic(currentTopic);
 
         // Загрузка вопросов (убираем проверку длины)
-      const response = await testAPI.getQuestionsByTopic(topic_id, 10);
+      const response = await testAPI.getQuestionsByTopic(topic_id, 10, { 
+        signal: abortController.signal 
+      });
       
+// Проверка отмены запроса
+      if (abortController.signal.aborted) return;
+
       // Проверка на наличие опций
       if (response.some(q => !q.options || q.options.length === 0)) {
         const invalidQuestions = response

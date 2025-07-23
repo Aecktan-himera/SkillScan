@@ -1,5 +1,4 @@
 import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
-import { ThemeProvider } from './context/ThemeContext';
 import { useAuth } from './context/AuthContext';
 import NavBar from './components/layout/NavBar';
 import Footer from './components/layout/Footer';
@@ -93,8 +92,8 @@ function App() {
   );
 
   return (
-        <ThemeProvider>
-          <div className="flex flex-col min-h-screen">
+        
+          <div className="flex flex-col min-h-screen dark:bg-gray-800">
             <NavBar />
             <main className="flex-grow">
               <Routes>
@@ -136,7 +135,7 @@ function App() {
             </main>
             <Footer />
           </div>
-        </ThemeProvider>
+        
   );
 }
 

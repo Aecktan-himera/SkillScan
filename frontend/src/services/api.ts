@@ -257,10 +257,12 @@ export const testAPI = {
     options: Array<{ text: string; isCorrect: boolean }>;
   }) => api.post('/admin/questions', data),
 
-  getQuestionsByTopic: (topic_id: number | string, count: number = 10) =>
-  api.get<{ data: Question[] }>("/tests/questions", {
-    params: { topic_id, count }
-  }).then(response => response.data.data),
+  getQuestionsByTopic: (topic_id: number | string, count: number = 10, options = {}) => {
+  return api.get<{ data: Question[] }>("/tests/questions", {
+    params: { topic_id, count },
+    ...options
+  }).then(response => response.data.data);
+},
   
   changeQuestion: (id: string, data: Partial<Question>) =>
     api.patch(`/admin/questions/${id}`, data),
