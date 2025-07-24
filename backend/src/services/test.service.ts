@@ -17,12 +17,22 @@ export class TestService {
     let correctCount = 0;
     const results = answers.map(answer => {
       const question = questions.find(q => q.id === answer.questionId);
-      const isCorrect = question?.options.some(
-        opt => opt.id === answer.selectedOptionId && opt.isCorrect
-      );
-      if (isCorrect) correctCount++;
-      return { ...answer, isCorrect };
-    });
+
+// Всегда гарантируем булево значение
+    let isCorrect = false;
+
+    if (question) {
+      const correctOption = question.options.find(opt => opt.isCorrect);
+      
+      // Убедимся, что сравниваем строки
+      if (correctOption) {
+        isCorrect = correctOption.id === answer.selectedOptionId;
+      }
+    }
+    
+    if (isCorrect) correctCount++;
+    return { ...answer, isCorrect };
+  });
     
     return {
       score: (correctCount / answers.length) * 100,
@@ -54,7 +64,14 @@ export class TestService {
   const ids = randomIds.map(item => item.question_id);
 
   // 3. Получаем полные вопросы с опциями
-  return await this.questionRepository
+  /*return await this.questionRepository
+    .createQueryBuilder("question")
+    .leftJoinAndSelect("question.options", "options")
+    .where("question.id IN (:...ids)", { ids })
+    .getMany();
+}*/
+
+return await this.questionRepository
     .createQueryBuilder("question")
     .leftJoinAndSelect("question.options", "options")
     .where("question.id IN (:...ids)", { ids })

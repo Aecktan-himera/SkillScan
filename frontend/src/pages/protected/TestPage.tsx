@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useTheme } from '../../context/ThemeContext';
 import { testAPI } from "../../services/api";
 import type { TestSubmitResponse, Question, Topic } from "../../types/index";
 import Timer from "../../components/test/Timer";
@@ -22,11 +23,13 @@ const TestPage: React.FC = () => {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { darkMode } = useTheme();
 
   // Преобразуем строковый параметр в число
   const topic_id = topicIdParam ? parseInt(topicIdParam, 10) : null;
 
   useEffect(() => {
+   const abortController = new AbortController(); 
     const fetchData = async () => {
       try {
         setLoading(true);
@@ -45,8 +48,13 @@ const TestPage: React.FC = () => {
         setTopic(currentTopic);
 
         // Загрузка вопросов (убираем проверку длины)
-      const response = await testAPI.getQuestionsByTopic(topic_id, 10);
+      const response = await testAPI.getQuestionsByTopic(topic_id, 10, { 
+        signal: abortController.signal 
+      });
       
+// Проверка отмены запроса
+      if (abortController.signal.aborted) return;
+
       // Проверка на наличие опций
       if (response.some(q => !q.options || q.options.length === 0)) {
         const invalidQuestions = response
@@ -92,15 +100,7 @@ const TestPage: React.FC = () => {
       )) {
         return;
       }
-      /*if (unansweredQuestions > 0) {
-        throw new Error("Пожалуйста, ответьте на все вопросы перед завершением теста");
-      }*/
-
-      /*const answers = questions.map((question, index) => ({
-        questionId: question.id,
-        selectedOptionId: userAnswers[index] || ""
-      }));*/
-
+      
       const answers = questions.map((question, index) => ({
         questionId: question.id.toString(), // Добавьте .toString()
         selectedOptionId: (userAnswers[index] || "").toString() // И здесь
@@ -179,8 +179,8 @@ const TestPage: React.FC = () => {
   if (testSubmitted && results) {
     return (
       <div className="max-w-4xl mx-auto p-6">
-        <h2 className="text-2xl font-bold mb-4">Тест завершен!</h2>
-        <p className="mb-4">
+        <h2 className={`text-2xl font-bold mb-4${darkMode ? 'text-white' : 'text-gray-900'}`}>Тест завершен!</h2>
+        <p className={`mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
           Ваш результат: {results.score.toFixed(1)}%
           ({results.correct} из {results.total})
         </p>

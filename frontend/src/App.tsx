@@ -1,5 +1,4 @@
 import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
-import { ThemeProvider } from './context/ThemeContext';
 import { useAuth } from './context/AuthContext';
 import NavBar from './components/layout/NavBar';
 import Footer from './components/layout/Footer';
@@ -21,80 +20,49 @@ import AdminSidebar from './components/admin/AdminSidebar';
 import QuestionEditPage from './pages/admin/QuestionEditPage';
 import TopicEditPage from './pages/admin/TopicEditPage';
 import NotFoundPage from './pages/public/NotFoundPage';
+import ThemedBackground from './components/common/ThemedBackground';
 import "virtual:uno.css";
 
 function App() {
   const { user } = useAuth();
-  // Обертки для стилей
-  const HomeWithWrapper = () => (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <Breadcrumbs />
-      <HomePage />
-    </div>
-  );
-
-  const LoginWithWrapper = () => (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <Breadcrumbs />
-      <LoginPage />
-    </div>
-  );
-
-  const RegisterWithWrapper = () => (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <Breadcrumbs />
-      <RegisterPage />
-    </div>
-  );
-
-  const TestWithWrapper = () => (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <Breadcrumbs />
-      <TestPage />
-    </div>
-  );
-
-  const HistoryWithWrapper = () => (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <Breadcrumbs />
-      <HistoryPage />
-    </div>
-  );
-
-  const ProfileWithWrapper = () => (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <Breadcrumbs />
-      <ProfilePage />
-    </div>
-  );
-
-  const TopicsWithWrapper = () => (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <Breadcrumbs />
-      <TopicsPage />
-    </div>
-  );
-
-  const NotFoundWithWrapper = () => (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <Breadcrumbs />
-      <NotFoundPage />
-    </div>
-  );
-
-  const AdminLayout = () => (
-    <div className="flex">
-      <AdminSidebar />
-      <div className="flex-1 p-6">
+  
+  // Обертка с фоновым изображением
+  const ContentWrapper = ({ children }: { children: React.ReactNode }) => (
+    <ThemedBackground>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <Breadcrumbs />
-        <Outlet />
+        {children}
       </div>
-    </div>
+    </ThemedBackground>
   );
+
+  // Обновленные обертки
+  const HomeWithWrapper = () => <ContentWrapper><HomePage /></ContentWrapper>;
+  const LoginWithWrapper = () => <ContentWrapper><LoginPage /></ContentWrapper>;
+  const RegisterWithWrapper = () => <ContentWrapper><RegisterPage /></ContentWrapper>;
+  const TestWithWrapper = () => <ContentWrapper><TestPage /></ContentWrapper>;
+  const HistoryWithWrapper = () => <ContentWrapper><HistoryPage /></ContentWrapper>;
+  const ProfileWithWrapper = () => <ContentWrapper><ProfilePage /></ContentWrapper>;
+  const TopicsWithWrapper = () => <ContentWrapper><TopicsPage /></ContentWrapper>;
+  const NotFoundWithWrapper = () => <ContentWrapper><NotFoundPage /></ContentWrapper>;
+
+  // Обертка для админки
+  const AdminLayout = () => (
+    <ThemedBackground>
+      <div className="flex">
+        <AdminSidebar />
+        <div className="flex-1 p-6">
+          <Breadcrumbs />
+          <Outlet />
+        </div>
+      </div>
+    </ThemedBackground>
+  );
+
 
   return (
-        <ThemeProvider>
-          <div className="flex flex-col min-h-screen">
+        
+          <div className="flex flex-col min-h-screen dark:bg-gray-800">
             <NavBar />
             <main className="flex-grow">
               <Routes>
@@ -136,7 +104,7 @@ function App() {
             </main>
             <Footer />
           </div>
-        </ThemeProvider>
+        
   );
 }
 

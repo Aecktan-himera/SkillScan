@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import { testAPI } from '../../services/api';
 import { Button } from '../../components/common/Button';
 import { Card } from '../../components/common/Card';
@@ -15,6 +16,7 @@ import Modal from '../../components/common/Modal';
 
 const HistoryPage = () => {
   const { user } = useAuth();
+  const { darkMode } = useTheme();
   const [history, setHistory] = useState<UserTestHistoryItem[]>([]); // Изменено на UserTestHistoryItem[]
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -183,7 +185,7 @@ const HistoryPage = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold flex items-center">
+        <h1 className={`text-2xl font-bold flex items-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
           <ChartBarIcon className="w-6 h-6 mr-2" />
           История тестов
         </h1>
@@ -207,8 +209,8 @@ const HistoryPage = () => {
       ) : (
         <Card className="p-6">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className={darkMode ? 'bg-gray-800' : 'bg-gray-100'}>
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Тема
