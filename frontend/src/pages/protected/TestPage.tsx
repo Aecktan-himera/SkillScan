@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useTheme } from '../../context/ThemeContext';
 import { testAPI } from "../../services/api";
 import type { TestSubmitResponse, Question, Topic } from "../../types/index";
 import Timer from "../../components/test/Timer";
@@ -22,6 +23,7 @@ const TestPage: React.FC = () => {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { darkMode } = useTheme();
 
   // Преобразуем строковый параметр в число
   const topic_id = topicIdParam ? parseInt(topicIdParam, 10) : null;
@@ -177,8 +179,8 @@ const TestPage: React.FC = () => {
   if (testSubmitted && results) {
     return (
       <div className="max-w-4xl mx-auto p-6">
-        <h2 className="text-2xl font-bold mb-4">Тест завершен!</h2>
-        <p className="mb-4">
+        <h2 className={`text-2xl font-bold mb-4${darkMode ? 'text-white' : 'text-gray-900'}`}>Тест завершен!</h2>
+        <p className={`mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
           Ваш результат: {results.score.toFixed(1)}%
           ({results.correct} из {results.total})
         </p>

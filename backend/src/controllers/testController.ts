@@ -31,7 +31,7 @@ export const getQuestionsByTopic = async (req: Request, res: Response) => {
 
     const questionCount = parseInt(count as string);
     const questions = await testService.getRandomQuestions(topicEntity.id, questionCount);
-    
+
     // Добавляем проверку на пустой результат
     if (questions.length === 0) {
       return sendError(res, new ApiError(404, "Вопросы по теме не найдены"));
@@ -40,7 +40,7 @@ export const getQuestionsByTopic = async (req: Request, res: Response) => {
     // Преобразование ID в строки для фронтенда
     const transformedQuestions = questions.map((q: Question) => {
       if (!q.options) q.options = [];
-      
+
       return {
         ...q,
         id: q.id.toString(),
@@ -88,19 +88,26 @@ export const submitTest = async (req: Request, res: Response) => {
     }
 
     for (const answer of answers) {
-      if (typeof answer.questionId !== 'string' || 
-          typeof answer.selectedOptionId !== 'string') {
+      if (typeof answer.questionId !== 'string' ||
+        typeof answer.selectedOptionId !== 'string') {
         return sendError(res, new ApiError(400, "Неверный формат ответа"));
       }
     }
-    
+
+    // Используем ID вопросов из запроса
+    const questionIds = answers.map(a => a.questionId);
+
     // Получение вопросов через сервис
-    const questions = await testService.getRandomQuestions(topicEntity.id, answers.length);
+    const questionRepository = AppDataSource.getRepository(Question);
+    const questions = await questionRepository.find({
+      where: { id: In(questionIds) },
+      relations: ["options"]
+    });
 
     // Расчет результатов через сервис
     const { score, correct, total, detailedResults } =
       await testService.calculateTestResults(questions, answers);
-      
+
     // Сохранение истории
     const testAttemptRepository = AppDataSource.getRepository(TestHistory);
     const testAttempt = testAttemptRepository.create({
@@ -205,24 +212,24 @@ export const getTestById = async (req: Request, res: Response) => {
         };
       }
 
-const correctOption = question.options.find(opt => opt.isCorrect);
-  const isCorrect = correctOption 
-    ? correctOption.id.toString() === answer.selectedOptionId?.toString()
-    : false;
+      const correctOption = question.options.find(opt => opt.isCorrect);
+      const isCorrect = correctOption
+        ? correctOption.id === answer.selectedOptionId
+        : false;
 
-  return {
+      return {
         ...answer,
         isCorrect,
         questionText: question.text,
         explanation: question.explanation,
-       options: question.options.map(opt => ({
-      ...opt,
-      id: opt.id.toString() // Гарантируем строковый формат
-    })),
-    correctOption: correctOption ? {
-      ...correctOption,
-      id: correctOption.id.toString()
-    } : undefined
+        options: question.options.map(opt => ({
+          ...opt,
+          id: opt.id.toString() // Гарантируем строковый формат
+        })),
+        correctOption: correctOption ? {
+          ...correctOption,
+          id: correctOption.id.toString()
+        } : undefined
       };
     });
 
@@ -271,7 +278,7 @@ export const getTestDetails = async (req: Request, res: Response) => {
     if (testHistory.user.id !== userId) {
       const userRepository = AppDataSource.getRepository(User);
       const currentUser = await userRepository.findOne({ where: { id: userId } });
-      
+
       // Если пользователь не администратор - запрещаем доступ
       if (!currentUser || currentUser.role !== 'admin') {
         return sendError(res, new ApiError(403, "Доступ запрещен"));
@@ -461,7 +468,7 @@ export const getAdminStats = async (req: Request, res: Response) => {
     const totalUsers = await userRepository.count({
       where: {
         role: Not("admin")
-         }
+      }
     });
     const totalQuestions = await questionRepository.count();
     const totalTopics = await topicRepository.count();

@@ -24,9 +24,9 @@ export class TestService {
     if (question) {
       const correctOption = question.options.find(opt => opt.isCorrect);
       
-      // Сравнение с приведением к строке
-      if (correctOption && answer.selectedOptionId) {
-        isCorrect = correctOption.id.toString() === answer.selectedOptionId.toString();
+      // Убедимся, что сравниваем строки
+      if (correctOption) {
+        isCorrect = correctOption.id === answer.selectedOptionId;
       }
     }
     
@@ -64,7 +64,14 @@ export class TestService {
   const ids = randomIds.map(item => item.question_id);
 
   // 3. Получаем полные вопросы с опциями
-  return await this.questionRepository
+  /*return await this.questionRepository
+    .createQueryBuilder("question")
+    .leftJoinAndSelect("question.options", "options")
+    .where("question.id IN (:...ids)", { ids })
+    .getMany();
+}*/
+
+return await this.questionRepository
     .createQueryBuilder("question")
     .leftJoinAndSelect("question.options", "options")
     .where("question.id IN (:...ids)", { ids })

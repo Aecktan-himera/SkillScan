@@ -37,7 +37,7 @@ export interface TestResult {
 
 
 export interface TestHistoryItem {
-  id: string; //string
+  id: number; //string
   user: {
     id: number; //string
     username: string;

@@ -14,7 +14,8 @@ import {
   NoSymbolIcon,
   ExclamationCircleIcon
 } from '@heroicons/react/24/outline';
-import Loader from '../../components/common/Loader'
+import { useTheme } from '../../context/ThemeContext';
+import Loader from '../../components/common/Loader';
 
 const AdminUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -28,6 +29,7 @@ const AdminUsers = () => {
     password: '',
     role: 'user' as 'user' | 'admin'
   });
+  const { darkMode } = useTheme();
 
   // Загрузка пользователей
   useEffect(() => {
@@ -260,19 +262,24 @@ const AdminUsers = () => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${
+                  darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
                   Пользователь
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${
+                  darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
                   Email
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${
+                  darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
                   Роль
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${
+                  darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
                   Статус
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${
+                  darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
                   Дата регистрации
                 </th>
                 <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -280,10 +287,14 @@ const AdminUsers = () => {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className={`divide-y ${
+              darkMode ? 'divide-gray-700 bg-gray-900' : 'divide-gray-200 bg-white'
+            }`}>
               {filteredUsers.map((user) => (
-                <tr key={user.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
+                <tr key={user.id} className={darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-50'}>
+                  <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${
+                    darkMode ? 'text-white' : 'text-gray-900'
+                  }`}>
                     <div className="flex items-center">
                       <div className="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full flex items-center justify-center">
                         <UserIcon className="h-6 w-6 text-gray-500" />
@@ -293,15 +304,21 @@ const AdminUsers = () => {
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className={`px-6 py-4 whitespace-nowrap text-sm ${
+                    darkMode ? 'text-gray-300' : 'text-gray-500'
+                  }`}>
                     {user.email}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className={`px-6 py-4 whitespace-nowrap text-sm ${
+                    darkMode ? 'text-gray-300' : 'text-gray-500'
+                  }`}>
                     <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getRoleColor(user.role)}`}>
                       {user.role === 'admin' ? 'Администратор' : 'Пользователь'}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className={`px-6 py-4 whitespace-nowrap text-sm ${
+                    darkMode ? 'text-gray-300' : 'text-gray-500'
+                  }`}>
                     <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(user.isActive)}`}>
                       {user.isActive ? 'Активен' : 'Заблокирован'}
                     </span>

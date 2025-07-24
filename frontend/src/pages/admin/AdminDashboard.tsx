@@ -218,7 +218,7 @@ const AdminDashboard = () => {
       }`}>
         {error}
         <button
-          className={`mt-2 ${darkMode ? 'text-blue-400' : 'text-blue-500'} hover:underline`}
+          className={`mt-2 ${darkMode ? 'text-emerald-400' : 'text-emerald-500'} hover:underline`}
           onClick={() => window.location.reload()}
         >
           Попробовать снова
@@ -277,8 +277,8 @@ const AdminDashboard = () => {
             onClick={handleExport}
             className={`flex items-center gap-1 px-3 py-2 rounded-md text-sm transition-colors ${
               darkMode 
-                ? 'bg-blue-600 text-white hover:bg-blue-700' 
-                : 'bg-blue-500 text-white hover:bg-blue-600'
+                ? 'bg-emerald-600 text-white hover:bg-emerald-700' 
+                : 'bg-emerald-500 text-white hover:bg-emerald-600'
             }`}
           >
             <ArrowDownTrayIcon className="h-4 w-4" />
